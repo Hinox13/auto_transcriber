@@ -1,18 +1,15 @@
 version: '3.3'
 
-networks:
-  transcriber:
-    name: transcriber
-
 services:
   transcriber:
     build: ./env/
+    network_mode: "host"
+    ports: 
+      - "8000"
     container_name: transcriber
     command: "python3 /code/app.py"
     volumes:
       - $PWD:/code
-    networks: 
-    - transcriber
     deploy:
       resources:
         reservations:
