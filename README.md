@@ -38,5 +38,7 @@ Here is a table of the whisper GPU consumption for each model:
 | small  |   244 M    |      `small`       |     ~2 GB     |      ~6x       |
 | medium |   769 M    |      `medium`      |     ~5 GB     |      ~2x       |
 | large  |   1550 M   |      `large`       |    ~10 GB     |       1x       |
+
+
 Values extracted from the official [whisper Git repository](https://github.com/openai/whisper/blob/main/README.md).
 
