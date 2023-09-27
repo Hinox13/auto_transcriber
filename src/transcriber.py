@@ -2,10 +2,14 @@ import whisper
 import torch
 import traceback
 
+### CHANGE WHISPER SIZE HERE ###
+model_size="medium"
+################################
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 print(DEVICE)
 
-model = whisper.load_model("medium", device = DEVICE, download_root="./models")
+model = whisper.load_model(model_size, device = DEVICE, download_root="./models")
 
 print("transcribing")
 def transcribe(path, config={}):
