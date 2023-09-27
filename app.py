@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for
 import threading
+import tempfile
 import src.transcriber as whisper
 
 import traceback
@@ -13,17 +14,21 @@ def home():
 @app.route('/', methods=['POST'])
 def transcribe():
     try:
-        if "audio_data" in request.files and request.files["audio_data"].filename != '':
-            file = request.files["audio_data"]
-            file.save(file.filename)
-            path=file.filename
-        else:
-            path = "audio/"+request.form["name"]
-
         config = {
                 "task" : request.form["task"]
             }
-        threading.Thread(target=whisper.transcribe, args=(path, config)).start()
+        if "audio_data" in request.files and request.files["audio_data"].filename != '':
+            file = request.files["audio_data"]
+            with tempfile.NamedTemporaryFile() as f:
+                file.save(f.name)
+                path=f.name
+                whisper.transcribe(path, config)
+        else:
+            path = "audio/"+request.form["name"]
+            threading.Thread(target=whisper.transcribe, args=(path, config)).start()
+
+        
+        
         
     except Exception as e:
         print(e)
