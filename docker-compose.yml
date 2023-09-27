@@ -1,0 +1,22 @@
+version: '3.3'
+
+networks:
+  transcriber:
+    name: transcriber
+
+services:
+  transcriber:
+    build: ./env/
+    container_name: transcriber
+    command: "python3 /code/app.py"
+    volumes:
+      - $PWD:/code
+    networks: 
+    - transcriber
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

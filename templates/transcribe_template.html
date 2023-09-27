@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      pre {
+        padding: 30px;
+      }
+      form {
+        padding: 30px;
+      }
+      </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+    
+  <body>
+	<form action="" method="post" enctype="multipart/form-data">
+		<div class="space-y-12">
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Automatic video Transcriber and Translator</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-600">Pick an audiofile and transcribe it or translate it! The text will be stored in the transcripts folder of the project.</p>
+        
+          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            
+            <div class="sm:col-span-3">
+              <label for="audio_data" class="block text-sm font-medium leading-6 text-gray-900">Upload File</label>
+              <div class="mt-2">
+                <input type="file" id="audio_data" name="audio_data" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6">
+              </div>
+              <label for="audio_data" class="mt-1 text-sm leading-6 text-gray-600">Max size 20 MB</label>
+            </div>
+
+            <div class="sm:col-span-3">
+              <label for="task" class="block text-sm font-medium leading-6 text-gray-900">Task of the Speech to Text Model</label>
+              <div class="mt-2">
+                <select id="task" name="task" autocomplete="task" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  <option value="translate">Translate</option>
+                  <option value="transcribe">Transcribe</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Videos longer than 20 MB</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-600">Put the file in the audio folder of the project and insert the full name.</p>
+        
+          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">  
+            <div class="sm:col-span-6">
+              <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Meeting Name</label>
+              <div class="mt-2">
+                <input type="text" name="name" id="name" autocomplete="given-name" value="" placeholder=" File name with extension" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              </div>
+            </div>
+          </div>
+        </div>
+			</div>
+		</div>
+		<div class="mt-6 flex items-center justify-end gap-x-6">
+      <button type="submit" class="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">Transcribe</button>
+    </div>
+  </form>
+</body>
+</html>
