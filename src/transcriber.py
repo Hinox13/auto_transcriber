@@ -39,7 +39,7 @@ def transcribe(path, config={}):
             # Store plain transcript
             file_manager.extend_file("transcripts/transcripts.txt", transcription["text"])
             # Store transcript with date format
-            transcripts = "\n".join([ f"{segment['start']} - {segment['end']}: {segment['text']}" for segment in transcription["segments"]])
+            transcripts = "\n".join([ f"{float(segment['start'])+(i*3600)} - {float(segment['end'])+(i*3600)}: {segment['text']}" for segment in transcription["segments"]]) + "\n"
             file_manager.extend_file("transcripts/transcripts_in_time.txt", transcripts)
     except Exception as e:
         print(e)
