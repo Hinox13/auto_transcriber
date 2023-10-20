@@ -1,6 +1,8 @@
 import whisper
 import torch
 import traceback
+import src.audio_manager as audio_manager
+import src.file_manager as file_manager
 
 ### CHANGE WHISPER SIZE HERE ###
 model_size="medium"
@@ -19,21 +21,29 @@ def transcribe(path, config={}):
                 "task": "transcribe",
             }
 
-        transcription = model.transcribe(path, **config)
-        print(transcription)
-        print(transcription["text"])
-        # Store plain transcript
-        f = open("transcripts/transcripts.txt", "w")
-        f.write(transcription["text"])
-        f.close()
-        # Store transcript with date format
-        f = open("transcripts/transcripts_in_time.txt", "w")
-        transcripts = "\n".join([ f"{segment['start']} - {segment['end']}: {segment['text']}" for segment in transcription["segments"]])
-        f.write(transcripts)
-        f.close()
+        # Delete files
+        file_manager.restart_file("transcripts/transcripts.txt")
+        file_manager.restart_file("transcripts/transcripts_in_time.txt")
+        # Modify the file to mp3 and 
+        audio = audio_manager.x2mp3(path)
+        print(f"Must cut audio in {int(audio.duration_seconds//3600)+1} chunks")
+        for i in range(int(audio.duration_seconds//3600)+1):
+            # Do cut and extract audio
+            if i == int(audio.duration_seconds//3600):
+                audio_manager.cut_audio(audio, i*3600, int(audio.duration_seconds))
+            else: audio_manager.cut_audio(audio, i*3600, (i+1)*3600)
+            print(f"Sendind chunk {i} to whisper")
+            transcription = model.transcribe("chunk.mp3", **config)
+            print(transcription)
+            print(transcription["text"])
+            # Store plain transcript
+            file_manager.extend_file("transcripts/transcripts.txt", transcription["text"])
+            # Store transcript with date format
+            transcripts = "\n".join([ f"{segment['start']} - {segment['end']}: {segment['text']}" for segment in transcription["segments"]])
+            file_manager.extend_file("transcripts/transcripts_in_time.txt", transcripts)
     except Exception as e:
         print(e)
         traceback.print_exc()
 
-# Warm up the model
+# Warm up the model, don't remove
 transcribe("audio/Cristiano Ronaldo - Siuuu.mp3")

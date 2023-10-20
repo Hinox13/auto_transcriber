@@ -7,5 +7,6 @@ RUN pip3 install openai-whisper openai
 RUN pip3 install pydub flask requests
 
 ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /code
